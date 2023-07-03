@@ -9,12 +9,20 @@ function levelUp () {
         tiles.setCurrentTilemap(tilemap`level3`)
     }
 }
+scene.onOverlapTile(SpriteKind.Player, sprites.skillmap.islandTile4, function (sprite, location) {
+    slowTime = gameTime
+    slow = 1
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
     level += 1
     levelUp()
 })
+let slow = 0
+let gameTime = 0
+let slowTime = 0
 let level = 0
 level = 0
+scene.setBackgroundColor(14)
 let mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . 2 2 2 2 2 2 2 2 . . . . 
@@ -34,10 +42,21 @@ let mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     `, SpriteKind.Player)
 mySprite.setPosition(7, 8)
-controller.moveSprite(mySprite)
+controller.moveSprite(mySprite, 150, 150)
 scene.cameraFollowSprite(mySprite)
 level = 1
 levelUp()
+game.onUpdate(function () {
+    gameTime = game.runtime()
+    if (slow == 1) {
+        controller.moveSprite(mySprite, 50, 50)
+    } else {
+        controller.moveSprite(mySprite, 100, 100)
+    }
+    if (gameTime > slowTime + 2000) {
+        slow = 0
+    }
+})
 game.onUpdate(function () {
     if (mySprite.vx < 0) {
         mySprite.setImage(img`

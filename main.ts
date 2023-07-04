@@ -11,48 +11,75 @@ function levelUp () {
     }
     if (level == 2) {
         tiles.setCurrentTilemap(tilemap`level2`)
-        mySprite.setPosition(7, 8)
+        game.showLongText("Avoid the other cars until the time runs out!", DialogLayout.Bottom)
+        tiles.placeOnRandomTile(mySprite, assets.tile`myTile9`)
         level2enemies()
     }
     if (level == 3) {
         tiles.setCurrentTilemap(tilemap`level3`)
     }
 }
+info.onCountdownEnd(function () {
+    level += 1
+})
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
     game.gameOver(false)
 })
 function level2enemies () {
-    for (let index = 0; index < 4; index++) {
-        blueCar = sprites.create(img`
-            . . . . . . . . . c c 8 . . . . 
-            . . . . . . 8 c c c f 8 c c . . 
-            . . . c c 8 8 f c a f f f c c . 
-            . . c c c f f f c a a f f c c c 
-            8 c c c f f f f c c a a c 8 c c 
-            c c c b f f f 8 a c c a a a c c 
-            c a a b b 8 a b c c c c c c c c 
-            a f c a a b b a c c c c c f f c 
-            a 8 f c a a c c a c a c f f f c 
-            c a 8 a a c c c c a a f f f 8 a 
-            . a c a a c f f a a b 8 f f c a 
-            . . c c b a f f f a b b c c 6 c 
-            . . . c b b a f f 6 6 a b 6 c . 
-            . . . c c b b b 6 6 a c c c c . 
-            . . . . c c a b b c c c . . . . 
-            . . . . . c c c c c c . . . . . 
-            `, SpriteKind.Enemy)
-        tiles.placeOnRandomTile(blueCar, assets.tile`myTile9`)
-        blueCar.follow(mySprite, 50)
-    }
+    info.startCountdown(60)
+    enemySpeed = 20
+    blueCar = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 6 6 6 6 6 6 6 6 . . 
+        . . . . . 6 c 6 6 6 6 6 6 9 6 . 
+        . . . . 6 c c 6 6 6 6 6 6 9 c 6 
+        . . d 6 9 c c 6 9 9 9 9 9 9 c c 
+        . d 6 6 9 c b 8 8 8 8 8 8 8 6 c 
+        . 6 6 6 9 b 8 8 b b b 8 b b 8 6 
+        . 6 6 6 6 6 8 b b b b 8 b b b 8 
+        . 6 6 6 6 8 6 6 6 6 6 8 6 6 6 8 
+        . 6 d d 6 8 f 8 8 8 f 8 8 8 8 8 
+        . d d 6 8 8 8 f 8 8 f 8 8 8 8 8 
+        . 8 8 8 8 8 8 8 f f f 8 8 8 8 8 
+        . 8 8 8 8 f f f 8 8 8 8 f f f f 
+        . . . 8 f f f f f 8 8 f f f f f 
+        . . . . f f f f . . . . f f f . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Enemy)
+    tiles.placeOnRandomTile(blueCar, assets.tile`myTile9`)
+    purpleCar = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . 3 3 3 3 3 3 3 3 . . 
+        . . . . . 3 c 3 3 3 3 3 3 d 3 . 
+        . . . . 3 c c 3 3 3 3 3 3 d c 3 
+        . . d 3 d c c 3 d d d d d d c c 
+        . d 3 3 d c b a a a a a a a 3 c 
+        . 3 3 3 d b a a b b b a b b a 3 
+        . 3 3 3 3 3 a b b b b a b b b a 
+        . 3 3 3 3 a 3 3 3 3 3 a 3 3 3 a 
+        . 3 d d 3 a f a a a f a a a a a 
+        . d d 3 a a a f a a f a a a a a 
+        . a a a a a a a f f f a a a a a 
+        . a a a a f f f a a a a f f f f 
+        . . . a f f f f f a a f f f f f 
+        . . . . f f f f . . . . f f f . 
+        . . . . . . . . . . . . . . . . 
+        `, SpriteKind.Enemy)
+    tiles.placeOnRandomTile(purpleCar, assets.tile`myTile9`)
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.skillmap.islandTile4, function (sprite, location) {
     slowTime = gameTime
     slow = 1
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
+    game.gameOver(false)
+})
 let slow = 0
 let gameTime = 0
 let slowTime = 0
+let purpleCar: Sprite = null
 let blueCar: Sprite = null
+let enemySpeed = 0
 let mySprite: Sprite = null
 let level = 0
 level = 0
@@ -80,17 +107,6 @@ controller.moveSprite(mySprite, 150, 150)
 scene.cameraFollowSprite(mySprite)
 level = 2
 levelUp()
-game.onUpdate(function () {
-    gameTime = game.runtime()
-    if (slow == 1) {
-        controller.moveSprite(mySprite, 50, 50)
-    } else {
-        controller.moveSprite(mySprite, 100, 100)
-    }
-    if (gameTime > slowTime + 2000) {
-        slow = 0
-    }
-})
 game.onUpdate(function () {
     if (mySprite.vx < 0) {
         mySprite.setImage(img`
@@ -170,6 +186,200 @@ game.onUpdate(function () {
             . . . . 2 d d 2 2 2 2 d d 2 f . 
             . . . . f 2 d 2 2 2 2 d 2 f . . 
             . . . . . e 2 2 2 2 2 2 e . . . 
+            `)
+    }
+})
+game.onUpdate(function () {
+    gameTime = game.runtime()
+    if (slow == 1) {
+        controller.moveSprite(mySprite, 50, 50)
+    } else {
+        controller.moveSprite(mySprite, 100, 100)
+    }
+    if (gameTime > slowTime + 2000) {
+        slow = 0
+    }
+})
+game.onUpdate(function () {
+    if (blueCar.vx < 0) {
+        blueCar.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . 6 6 6 6 6 6 6 6 . . 
+            . . . . . 6 c 6 6 6 6 6 6 9 6 . 
+            . . . . 6 c c 6 6 6 6 6 6 9 c 6 
+            . . d 6 9 c c 6 9 9 9 9 9 9 c c 
+            . d 6 6 9 c b 8 8 8 8 8 8 8 6 c 
+            . 6 6 6 9 b 8 8 b b b 8 b b 8 6 
+            . 6 6 6 6 6 8 b b b b 8 b b b 8 
+            . 6 6 6 6 8 6 6 6 6 6 8 6 6 6 8 
+            . 6 d d 6 8 f 8 8 8 f 8 8 8 8 8 
+            . d d 6 8 8 8 f 8 8 f 8 8 8 8 8 
+            . 8 8 8 8 8 8 8 f f f 8 8 8 8 8 
+            . 8 8 8 8 f f f 8 8 8 8 f f f f 
+            . . . 8 f f f f f 8 8 f f f f f 
+            . . . . f f f f . . . . f f f . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    }
+    if (blueCar.vx > 0) {
+        blueCar.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . 6 6 6 6 6 6 6 6 . . . . 
+            . . . 6 9 6 6 6 6 6 6 c 6 . . . 
+            . . 6 c 9 6 6 6 6 6 6 c c 6 . . 
+            . 6 c c 9 9 9 9 9 9 6 c c 9 6 d 
+            . 6 c 6 8 8 8 8 8 8 8 b c 9 6 6 
+            . 6 6 8 b b 8 b b b 8 8 b 9 6 6 
+            . 6 8 b b b 8 b b b b 8 6 6 6 6 
+            . 8 8 6 6 6 8 6 6 6 6 6 8 6 6 6 
+            . 8 8 8 8 8 8 f 8 8 8 f 8 6 d d 
+            . 8 8 8 8 8 8 f 8 8 f 8 8 8 6 d 
+            . 8 8 8 8 8 8 f f f 8 8 8 8 8 8 
+            . 8 f f f f 8 8 8 8 f f f 8 8 8 
+            . . f f f f f 8 8 f f f f f 8 . 
+            . . . f f f . . . . f f f f . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    }
+    if (blueCar.vy > 0) {
+        blueCar.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . 6 6 6 6 6 6 . . . . 
+            . . . . . 6 6 9 9 6 6 6 6 . . . 
+            . . . . . c 9 6 6 6 6 6 c . . . 
+            . . . . 6 c 9 6 6 6 6 6 c 6 . . 
+            . . . 8 6 c 9 6 6 6 6 6 c 6 8 . 
+            . . . f 6 c 9 6 6 6 6 6 c 6 f . 
+            . . . f 8 c 6 6 6 6 6 6 c 8 f . 
+            . . . f 6 c 6 b b b b 6 c 6 f . 
+            . . . 8 6 6 b c c c c b 6 6 8 . 
+            . . . 8 8 b c c c c c c b 8 8 . 
+            . . . f 8 9 9 9 9 9 9 9 9 8 f . 
+            . . . f 8 d 6 6 6 6 6 6 d 8 f . 
+            . . . . 6 d d 6 6 6 6 d d 6 f . 
+            . . . . f 6 d 6 6 6 6 d 6 f . . 
+            . . . . . 8 6 6 6 6 6 6 8 . . . 
+            `)
+    }
+    if (blueCar.vy < 0) {
+        blueCar.setImage(img`
+            . . . . . . 8 8 c c 8 8 . . . . 
+            . . . . . 8 6 6 6 6 6 6 8 . . . 
+            . . . . 6 c 6 6 6 6 6 6 c 6 . . 
+            . . . 8 6 c 9 6 6 6 6 6 c 6 8 . 
+            . . . f 6 6 9 6 6 6 6 6 c 6 f . 
+            . . . f 6 6 9 6 6 6 6 6 6 6 f . 
+            . . . f 6 6 9 6 6 6 6 6 6 6 f . 
+            . . . f 6 c 6 9 9 6 6 6 c 6 f . 
+            . . . 8 6 c 8 c c c c 8 c 6 8 . 
+            . . . 8 6 8 c b b b b c 8 6 8 . 
+            . . . 8 6 8 b b b b b b 8 6 8 . 
+            . . . 8 8 8 8 8 8 8 8 8 8 8 8 . 
+            . . . f 8 d 8 8 8 8 8 8 d 8 f . 
+            . . . f 8 6 d 8 8 8 8 d 6 8 f . 
+            . . . f f 8 8 8 8 8 8 8 8 f f . 
+            . . . . f f . . . . . . f f . . 
+            `)
+    }
+})
+game.onUpdate(function () {
+    blueCar.follow(mySprite, enemySpeed)
+    purpleCar.follow(mySprite, enemySpeed)
+    if (info.countdown() < 50) {
+        enemySpeed = 30
+    }
+    if (info.countdown() < 40) {
+        enemySpeed = 40
+    }
+    if (info.countdown() < 30) {
+        enemySpeed = 60
+    }
+    if (info.countdown() < 20) {
+        enemySpeed = 80
+    }
+    if (info.countdown() < 10) {
+        enemySpeed = 100
+    }
+})
+game.onUpdate(function () {
+    if (purpleCar.vx < 0) {
+        purpleCar.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . 3 3 3 3 3 3 3 3 . . 
+            . . . . . 3 c 3 3 3 3 3 3 d 3 . 
+            . . . . 3 c c 3 3 3 3 3 3 d c 3 
+            . . d 3 d c c 3 d d d d d d c c 
+            . d 3 3 d c b a a a a a a a 3 c 
+            . 3 3 3 d b a a b b b a b b a 3 
+            . 3 3 3 3 3 a b b b b a b b b a 
+            . 3 3 3 3 a 3 3 3 3 3 a 3 3 3 a 
+            . 3 d d 3 a f a a a f a a a a a 
+            . d d 3 a a a f a a f a a a a a 
+            . a a a a a a a f f f a a a a a 
+            . a a a a f f f a a a a f f f f 
+            . . . a f f f f f a a f f f f f 
+            . . . . f f f f . . . . f f f . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    }
+    if (purpleCar.vx > 0) {
+        purpleCar.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . 3 3 3 3 3 3 3 3 . . . . 
+            . . . 3 d 3 3 3 3 3 3 c 3 . . . 
+            . . 3 c d 3 3 3 3 3 3 c c 3 . . 
+            . 3 c c d d d d d d 3 c c d 3 d 
+            . 3 c 3 a a a a a a a b c d 3 3 
+            . 3 3 a b b a b b b a a b d 3 3 
+            . 3 a b b b a b b b b a 3 3 3 3 
+            . a a 3 3 3 a 3 3 3 3 3 a 3 3 3 
+            . a a a a a a f a a a f a 3 d d 
+            . a a a a a a f a a f a a a 3 d 
+            . a a a a a a f f f a a a a a a 
+            . a f f f f a a a a f f f a a a 
+            . . f f f f f a a f f f f f a . 
+            . . . f f f . . . . f f f f . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    }
+    if (purpleCar.vy > 0) {
+        purpleCar.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . 3 3 3 3 3 3 . . . . 
+            . . . . . 3 3 d d 3 3 3 3 . . . 
+            . . . . . c d 3 3 3 3 3 c . . . 
+            . . . . 3 c d 3 3 3 3 3 c 3 . . 
+            . . . a 3 c d 3 3 3 3 3 c 3 a . 
+            . . . f 3 c d 3 3 3 3 3 c 3 f . 
+            . . . f a c 3 3 3 3 3 3 c a f . 
+            . . . f 3 c 3 b b b b 3 c 3 f . 
+            . . . a 3 3 b c c c c b 3 3 a . 
+            . . . a a b c c c c c c b a a . 
+            . . . f a d d d d d d d d a f . 
+            . . . f a d 3 3 3 3 3 3 d a f . 
+            . . . . 3 d d 3 3 3 3 d d 3 f . 
+            . . . . f 3 d 3 3 3 3 d 3 f . . 
+            . . . . . a 3 3 3 3 3 3 a . . . 
+            `)
+    }
+    if (purpleCar.vy < 0) {
+        purpleCar.setImage(img`
+            . . . . . . a a c c a a . . . . 
+            . . . . . a 3 3 3 3 3 3 a . . . 
+            . . . . 3 c 3 3 3 3 3 3 c 3 . . 
+            . . . a 3 c d 3 3 3 3 3 c 3 a . 
+            . . . f 3 3 d 3 3 3 3 3 c 3 f . 
+            . . . f 3 3 d 3 3 3 3 3 3 3 f . 
+            . . . f 3 3 d 3 3 3 3 3 3 3 f . 
+            . . . f 3 c 3 d d 3 3 3 c 3 f . 
+            . . . a 3 c a c c c c a c 3 a . 
+            . . . a 3 a c b b b b c a 3 a . 
+            . . . a 3 a b b b b b b a 3 a . 
+            . . . a a a a a a a a a a a a . 
+            . . . f a d a a a a a a d a f . 
+            . . . f a 3 d a a a a d 3 a f . 
+            . . . f f a a a a a a a a f f . 
+            . . . . f f . . . . . . f f . . 
             `)
     }
 })

@@ -11,6 +11,8 @@ function levelUp () {
     }
     if (level == 2) {
         tiles.setCurrentTilemap(tilemap`level2`)
+        mySprite.setPosition(7, 8)
+        level2enemies()
     }
     if (level == 3) {
         tiles.setCurrentTilemap(tilemap`level3`)
@@ -19,6 +21,30 @@ function levelUp () {
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
     game.gameOver(false)
 })
+function level2enemies () {
+    for (let index = 0; index < 4; index++) {
+        blueCar = sprites.create(img`
+            . . . . . . . . . c c 8 . . . . 
+            . . . . . . 8 c c c f 8 c c . . 
+            . . . c c 8 8 f c a f f f c c . 
+            . . c c c f f f c a a f f c c c 
+            8 c c c f f f f c c a a c 8 c c 
+            c c c b f f f 8 a c c a a a c c 
+            c a a b b 8 a b c c c c c c c c 
+            a f c a a b b a c c c c c f f c 
+            a 8 f c a a c c a c a c f f f c 
+            c a 8 a a c c c c a a f f f 8 a 
+            . a c a a c f f a a b 8 f f c a 
+            . . c c b a f f f a b b c c 6 c 
+            . . . c b b a f f 6 6 a b 6 c . 
+            . . . c c b b b 6 6 a c c c c . 
+            . . . . c c a b b c c c . . . . 
+            . . . . . c c c c c c . . . . . 
+            `, SpriteKind.Enemy)
+        tiles.placeOnRandomTile(blueCar, assets.tile`myTile9`)
+        blueCar.follow(mySprite, 50)
+    }
+}
 scene.onOverlapTile(SpriteKind.Player, sprites.skillmap.islandTile4, function (sprite, location) {
     slowTime = gameTime
     slow = 1
@@ -26,10 +52,12 @@ scene.onOverlapTile(SpriteKind.Player, sprites.skillmap.islandTile4, function (s
 let slow = 0
 let gameTime = 0
 let slowTime = 0
+let blueCar: Sprite = null
+let mySprite: Sprite = null
 let level = 0
 level = 0
 scene.setBackgroundColor(13)
-let mySprite = sprites.create(img`
+mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . 2 2 2 2 2 2 2 2 . . . . 
     . . . 2 4 2 2 2 2 2 2 c 2 . . . 
@@ -50,7 +78,7 @@ let mySprite = sprites.create(img`
 mySprite.setPosition(7, 8)
 controller.moveSprite(mySprite, 150, 150)
 scene.cameraFollowSprite(mySprite)
-level = 1
+level = 2
 levelUp()
 game.onUpdate(function () {
     gameTime = game.runtime()

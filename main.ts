@@ -1,3 +1,10 @@
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile1`, function (sprite, location) {
+    game.gameOver(false)
+})
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile6`, function (sprite, location) {
+    level += 1
+    levelUp()
+})
 function levelUp () {
     if (level == 1) {
         tiles.setCurrentTilemap(tilemap`level1`)
@@ -9,20 +16,19 @@ function levelUp () {
         tiles.setCurrentTilemap(tilemap`level3`)
     }
 }
+scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, location) {
+    game.gameOver(false)
+})
 scene.onOverlapTile(SpriteKind.Player, sprites.skillmap.islandTile4, function (sprite, location) {
     slowTime = gameTime
     slow = 1
-})
-scene.onOverlapTile(SpriteKind.Player, sprites.dungeon.collectibleInsignia, function (sprite, location) {
-    level += 1
-    levelUp()
 })
 let slow = 0
 let gameTime = 0
 let slowTime = 0
 let level = 0
 level = 0
-scene.setBackgroundColor(14)
+scene.setBackgroundColor(13)
 let mySprite = sprites.create(img`
     . . . . . . . . . . . . . . . . 
     . . . . 2 2 2 2 2 2 2 2 . . . . 

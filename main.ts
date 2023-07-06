@@ -49,7 +49,8 @@ function level2enemies () {
         . . . . f f f f . . . . f f f . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Enemy)
-    tiles.placeOnRandomTile(purpleCar, assets.tile`myTile5`)
+    tiles.placeOnRandomTile(blueCar, assets.tile`myTile5`)
+    blueCar.follow(mySprite, enemySpeed)
     purpleCar = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . 3 3 3 3 3 3 3 3 . . 
@@ -68,7 +69,8 @@ function level2enemies () {
         . . . . f f f f . . . . f f f . 
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Enemy)
-    tiles.placeOnRandomTile(blueCar, assets.tile`myTile5`)
+    tiles.placeOnRandomTile(purpleCar, assets.tile`myTile5`)
+    purpleCar.follow(mySprite, enemySpeed)
     greenCar = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . 3 3 3 3 3 3 3 3 . . 
@@ -88,6 +90,7 @@ function level2enemies () {
         . . . . . . . . . . . . . . . . 
         `, SpriteKind.Enemy)
     tiles.placeOnRandomTile(greenCar, assets.tile`myTile5`)
+    greenCar.follow(mySprite, enemySpeed)
 }
 scene.onOverlapTile(SpriteKind.Player, sprites.skillmap.islandTile4, function (sprite, location) {
     slowTime = gameTime
@@ -145,34 +148,31 @@ game.onUpdate(function () {
     if (level == 2) {
         if (lvl2Difficulty == 0) {
             if (info.countdown() < 50) {
-                blueCar.follow(mySprite, enemySpeed)
-                enemySpeed = 30
+                enemySpeed = 60
                 lvl2Difficulty = 1
             }
         }
         if (lvl2Difficulty == 1) {
             if (info.countdown() < 40) {
-                purpleCar.follow(mySprite, enemySpeed)
-                enemySpeed = 40
+                enemySpeed = 70
                 lvl2Difficulty = 2
             }
         }
         if (lvl2Difficulty == 2) {
             if (info.countdown() < 30) {
-                greenCar.follow(mySprite, enemySpeed)
-                enemySpeed = 60
+                enemySpeed = 80
                 lvl2Difficulty = 3
             }
         }
         if (lvl2Difficulty == 3) {
             if (info.countdown() < 20) {
-                enemySpeed = 80
+                enemySpeed = 100
                 lvl2Difficulty = 4
             }
         }
         if (lvl2Difficulty == 4) {
             if (info.countdown() < 10) {
-                enemySpeed = 100
+                enemySpeed = 500
             }
         }
     }

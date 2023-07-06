@@ -30,6 +30,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
 function level2enemies () {
     info.startCountdown(60)
     enemySpeed = 20
+    lvl2Difficulty = 0
     blueCar = sprites.create(img`
         . . . . . . . . . . . . . . . . 
         . . . . . . 6 6 6 6 6 6 6 6 . . 
@@ -101,6 +102,7 @@ let slowTime = 0
 let greenCar: Sprite = null
 let purpleCar: Sprite = null
 let blueCar: Sprite = null
+let lvl2Difficulty = 0
 let enemySpeed = 0
 let mySprite: Sprite = null
 let level = 0
@@ -129,88 +131,6 @@ scene.cameraFollowSprite(mySprite)
 level = 2
 levelUp()
 game.onUpdate(function () {
-    if (mySprite.vx < 0) {
-        mySprite.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . 2 2 2 2 2 2 2 2 . . 
-            . . . . . 2 c 2 2 2 2 2 2 4 2 . 
-            . . . . 2 c c 2 2 2 2 2 2 4 c 2 
-            . . d 2 4 c c 2 4 4 4 4 4 4 c c 
-            . d 2 2 4 c b e e e e e e e 2 c 
-            . 2 2 2 4 b e e b b b e b b e 2 
-            . 2 2 2 2 2 e b b b b e b b b e 
-            . 2 2 2 2 e 2 2 2 2 2 e 2 2 2 e 
-            . 2 d d 2 e f e e e f e e e e e 
-            . d d 2 e e e f e e f e e e e e 
-            . e e e e e e e f f f e e e e e 
-            . e e e e f f f e e e e f f f f 
-            . . . e f f f f f e e f f f f f 
-            . . . . f f f f . . . . f f f . 
-            . . . . . . . . . . . . . . . . 
-            `)
-    }
-    if (mySprite.vx > 0) {
-        mySprite.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . 2 2 2 2 2 2 2 2 . . . . 
-            . . . 2 4 2 2 2 2 2 2 c 2 . . . 
-            . . 2 c 4 2 2 2 2 2 2 c c 2 . . 
-            . 2 c c 4 4 4 4 4 4 2 c c 4 2 d 
-            . 2 c 2 e e e e e e e b c 4 2 2 
-            . 2 2 e b b e b b b e e b 4 2 2 
-            . 2 e b b b e b b b b e 2 2 2 2 
-            . e e 2 2 2 e 2 2 2 2 2 e 2 2 2 
-            . e e e e e e f e e e f e 2 d d 
-            . e e e e e e f e e f e e e 2 d 
-            . e e e e e e f f f e e e e e e 
-            . e f f f f e e e e f f f e e e 
-            . . f f f f f e e f f f f f e . 
-            . . . f f f . . . . f f f f . . 
-            . . . . . . . . . . . . . . . . 
-            `)
-    }
-    if (mySprite.vy < 0) {
-        mySprite.setImage(img`
-            . . . . . . e e c c e e . . . . 
-            . . . . . e 2 2 2 2 2 2 e . . . 
-            . . . . 2 c 2 2 2 2 2 2 c 2 . . 
-            . . . e 2 c 4 2 2 2 2 2 c 2 e . 
-            . . . f 2 2 4 2 2 2 2 2 c 2 f . 
-            . . . f 2 2 4 2 2 2 2 2 2 2 f . 
-            . . . f 2 2 4 2 2 2 2 2 2 2 f . 
-            . . . f 2 c 2 4 4 2 2 2 c 2 f . 
-            . . . e 2 c e c c c c e c 2 e . 
-            . . . e 2 e c b b b b c e 2 e . 
-            . . . e 2 e b b b b b b e 2 e . 
-            . . . e e e e e e e e e e e e . 
-            . . . f e d e e e e e e d e f . 
-            . . . f e 2 d e e e e d 2 e f . 
-            . . . f f e e e e e e e e f f . 
-            . . . . f f . . . . . . f f . . 
-            `)
-    }
-    if (mySprite.vy > 0) {
-        mySprite.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . 2 2 2 2 2 2 . . . . 
-            . . . . . 2 2 4 4 2 2 2 2 . . . 
-            . . . . . c 4 2 2 2 2 2 c . . . 
-            . . . . 2 c 4 2 2 2 2 2 c 2 . . 
-            . . . e 2 c 4 2 2 2 2 2 c 2 e . 
-            . . . f 2 c 4 2 2 2 2 2 c 2 f . 
-            . . . f e c 2 2 2 2 2 2 c e f . 
-            . . . f 2 c 2 b b b b 2 c 2 f . 
-            . . . e 2 2 b c c c c b 2 2 e . 
-            . . . e e b c c c c c c b e e . 
-            . . . f e 4 4 4 4 4 4 4 4 e f . 
-            . . . f e d 2 2 2 2 2 2 d e f . 
-            . . . . 2 d d 2 2 2 2 d d 2 f . 
-            . . . . f 2 d 2 2 2 2 d 2 f . . 
-            . . . . . e 2 2 2 2 2 2 e . . . 
-            `)
-    }
-})
-game.onUpdate(function () {
     gameTime = game.runtime()
     if (slow == 1) {
         controller.moveSprite(mySprite, 50, 50)
@@ -219,6 +139,42 @@ game.onUpdate(function () {
     }
     if (gameTime > slowTime + 2000) {
         slow = 0
+    }
+})
+game.onUpdate(function () {
+    if (level == 2) {
+        if (lvl2Difficulty == 0) {
+            if (info.countdown() < 50) {
+                blueCar.follow(mySprite, enemySpeed)
+                enemySpeed = 30
+                lvl2Difficulty = 1
+            }
+        }
+        if (lvl2Difficulty == 1) {
+            if (info.countdown() < 40) {
+                purpleCar.follow(mySprite, enemySpeed)
+                enemySpeed = 40
+                lvl2Difficulty = 2
+            }
+        }
+        if (lvl2Difficulty == 2) {
+            if (info.countdown() < 30) {
+                greenCar.follow(mySprite, enemySpeed)
+                enemySpeed = 60
+                lvl2Difficulty = 3
+            }
+        }
+        if (lvl2Difficulty == 3) {
+            if (info.countdown() < 20) {
+                enemySpeed = 80
+                lvl2Difficulty = 4
+            }
+        }
+        if (lvl2Difficulty == 4) {
+            if (info.countdown() < 10) {
+                enemySpeed = 100
+            }
+        }
     }
 })
 game.onUpdate(function () {
@@ -301,26 +257,6 @@ game.onUpdate(function () {
             . . . f f 8 8 8 8 8 8 8 8 f f . 
             . . . . f f . . . . . . f f . . 
             `)
-    }
-})
-game.onUpdate(function () {
-    if (info.countdown() < 50) {
-        blueCar.follow(mySprite, enemySpeed)
-        enemySpeed = 30
-    }
-    if (info.countdown() < 40) {
-        purpleCar.follow(mySprite, enemySpeed)
-        enemySpeed = 40
-    }
-    if (info.countdown() < 30) {
-        greenCar.follow(mySprite, enemySpeed)
-        enemySpeed = 60
-    }
-    if (info.countdown() < 20) {
-        enemySpeed = 80
-    }
-    if (info.countdown() < 10) {
-        enemySpeed = 100
     }
 })
 game.onUpdate(function () {
@@ -484,6 +420,88 @@ game.onUpdate(function () {
             . . . f 7 3 d 7 7 7 7 d 3 7 f . 
             . . . f f 7 7 7 7 7 7 7 7 f f . 
             . . . . f f . . . . . . f f . . 
+            `)
+    }
+})
+game.onUpdate(function () {
+    if (mySprite.vx < 0) {
+        mySprite.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . 2 2 2 2 2 2 2 2 . . 
+            . . . . . 2 c 2 2 2 2 2 2 4 2 . 
+            . . . . 2 c c 2 2 2 2 2 2 4 c 2 
+            . . d 2 4 c c 2 4 4 4 4 4 4 c c 
+            . d 2 2 4 c b e e e e e e e 2 c 
+            . 2 2 2 4 b e e b b b e b b e 2 
+            . 2 2 2 2 2 e b b b b e b b b e 
+            . 2 2 2 2 e 2 2 2 2 2 e 2 2 2 e 
+            . 2 d d 2 e f e e e f e e e e e 
+            . d d 2 e e e f e e f e e e e e 
+            . e e e e e e e f f f e e e e e 
+            . e e e e f f f e e e e f f f f 
+            . . . e f f f f f e e f f f f f 
+            . . . . f f f f . . . . f f f . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    }
+    if (mySprite.vx > 0) {
+        mySprite.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . 2 2 2 2 2 2 2 2 . . . . 
+            . . . 2 4 2 2 2 2 2 2 c 2 . . . 
+            . . 2 c 4 2 2 2 2 2 2 c c 2 . . 
+            . 2 c c 4 4 4 4 4 4 2 c c 4 2 d 
+            . 2 c 2 e e e e e e e b c 4 2 2 
+            . 2 2 e b b e b b b e e b 4 2 2 
+            . 2 e b b b e b b b b e 2 2 2 2 
+            . e e 2 2 2 e 2 2 2 2 2 e 2 2 2 
+            . e e e e e e f e e e f e 2 d d 
+            . e e e e e e f e e f e e e 2 d 
+            . e e e e e e f f f e e e e e e 
+            . e f f f f e e e e f f f e e e 
+            . . f f f f f e e f f f f f e . 
+            . . . f f f . . . . f f f f . . 
+            . . . . . . . . . . . . . . . . 
+            `)
+    }
+    if (mySprite.vy < 0) {
+        mySprite.setImage(img`
+            . . . . . . e e c c e e . . . . 
+            . . . . . e 2 2 2 2 2 2 e . . . 
+            . . . . 2 c 2 2 2 2 2 2 c 2 . . 
+            . . . e 2 c 4 2 2 2 2 2 c 2 e . 
+            . . . f 2 2 4 2 2 2 2 2 c 2 f . 
+            . . . f 2 2 4 2 2 2 2 2 2 2 f . 
+            . . . f 2 2 4 2 2 2 2 2 2 2 f . 
+            . . . f 2 c 2 4 4 2 2 2 c 2 f . 
+            . . . e 2 c e c c c c e c 2 e . 
+            . . . e 2 e c b b b b c e 2 e . 
+            . . . e 2 e b b b b b b e 2 e . 
+            . . . e e e e e e e e e e e e . 
+            . . . f e d e e e e e e d e f . 
+            . . . f e 2 d e e e e d 2 e f . 
+            . . . f f e e e e e e e e f f . 
+            . . . . f f . . . . . . f f . . 
+            `)
+    }
+    if (mySprite.vy > 0) {
+        mySprite.setImage(img`
+            . . . . . . . . . . . . . . . . 
+            . . . . . . 2 2 2 2 2 2 . . . . 
+            . . . . . 2 2 4 4 2 2 2 2 . . . 
+            . . . . . c 4 2 2 2 2 2 c . . . 
+            . . . . 2 c 4 2 2 2 2 2 c 2 . . 
+            . . . e 2 c 4 2 2 2 2 2 c 2 e . 
+            . . . f 2 c 4 2 2 2 2 2 c 2 f . 
+            . . . f e c 2 2 2 2 2 2 c e f . 
+            . . . f 2 c 2 b b b b 2 c 2 f . 
+            . . . e 2 2 b c c c c b 2 2 e . 
+            . . . e e b c c c c c c b e e . 
+            . . . f e 4 4 4 4 4 4 4 4 e f . 
+            . . . f e d 2 2 2 2 2 2 d e f . 
+            . . . . 2 d d 2 2 2 2 d d 2 f . 
+            . . . . f 2 d 2 2 2 2 d 2 f . . 
+            . . . . . e 2 2 2 2 2 2 e . . . 
             `)
     }
 })

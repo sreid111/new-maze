@@ -29,7 +29,7 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile2`, function (sprite, l
 })
 function level2enemies () {
     info.startCountdown(60)
-    enemySpeed = 20
+    enemySpeed = 100
     lvl2Difficulty = 0
     blueCar = sprites.create(img`
         . . . . . . . . . . . . . . . . 
@@ -134,296 +134,6 @@ scene.cameraFollowSprite(mySprite)
 level = 2
 levelUp()
 game.onUpdate(function () {
-    gameTime = game.runtime()
-    if (slow == 1) {
-        controller.moveSprite(mySprite, 50, 50)
-    } else {
-        controller.moveSprite(mySprite, 100, 100)
-    }
-    if (gameTime > slowTime + 2000) {
-        slow = 0
-    }
-})
-game.onUpdate(function () {
-    if (level == 2) {
-        if (lvl2Difficulty == 0) {
-            if (info.countdown() < 50) {
-                enemySpeed = 60
-                lvl2Difficulty = 1
-            }
-        }
-        if (lvl2Difficulty == 1) {
-            if (info.countdown() < 40) {
-                enemySpeed = 70
-                lvl2Difficulty = 2
-            }
-        }
-        if (lvl2Difficulty == 2) {
-            if (info.countdown() < 30) {
-                enemySpeed = 80
-                lvl2Difficulty = 3
-            }
-        }
-        if (lvl2Difficulty == 3) {
-            if (info.countdown() < 20) {
-                enemySpeed = 100
-                lvl2Difficulty = 4
-            }
-        }
-        if (lvl2Difficulty == 4) {
-            if (info.countdown() < 10) {
-                enemySpeed = 500
-            }
-        }
-    }
-})
-game.onUpdate(function () {
-    if (blueCar.vx < 0) {
-        blueCar.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . 6 6 6 6 6 6 6 6 . . 
-            . . . . . 6 c 6 6 6 6 6 6 9 6 . 
-            . . . . 6 c c 6 6 6 6 6 6 9 c 6 
-            . . d 6 9 c c 6 9 9 9 9 9 9 c c 
-            . d 6 6 9 c b 8 8 8 8 8 8 8 6 c 
-            . 6 6 6 9 b 8 8 b b b 8 b b 8 6 
-            . 6 6 6 6 6 8 b b b b 8 b b b 8 
-            . 6 6 6 6 8 6 6 6 6 6 8 6 6 6 8 
-            . 6 d d 6 8 f 8 8 8 f 8 8 8 8 8 
-            . d d 6 8 8 8 f 8 8 f 8 8 8 8 8 
-            . 8 8 8 8 8 8 8 f f f 8 8 8 8 8 
-            . 8 8 8 8 f f f 8 8 8 8 f f f f 
-            . . . 8 f f f f f 8 8 f f f f f 
-            . . . . f f f f . . . . f f f . 
-            . . . . . . . . . . . . . . . . 
-            `)
-    }
-    if (blueCar.vx > 0) {
-        blueCar.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . 6 6 6 6 6 6 6 6 . . . . 
-            . . . 6 9 6 6 6 6 6 6 c 6 . . . 
-            . . 6 c 9 6 6 6 6 6 6 c c 6 . . 
-            . 6 c c 9 9 9 9 9 9 6 c c 9 6 d 
-            . 6 c 6 8 8 8 8 8 8 8 b c 9 6 6 
-            . 6 6 8 b b 8 b b b 8 8 b 9 6 6 
-            . 6 8 b b b 8 b b b b 8 6 6 6 6 
-            . 8 8 6 6 6 8 6 6 6 6 6 8 6 6 6 
-            . 8 8 8 8 8 8 f 8 8 8 f 8 6 d d 
-            . 8 8 8 8 8 8 f 8 8 f 8 8 8 6 d 
-            . 8 8 8 8 8 8 f f f 8 8 8 8 8 8 
-            . 8 f f f f 8 8 8 8 f f f 8 8 8 
-            . . f f f f f 8 8 f f f f f 8 . 
-            . . . f f f . . . . f f f f . . 
-            . . . . . . . . . . . . . . . . 
-            `)
-    }
-    if (blueCar.vy > 0) {
-        blueCar.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . 6 6 6 6 6 6 . . . . 
-            . . . . . 6 6 9 9 6 6 6 6 . . . 
-            . . . . . c 9 6 6 6 6 6 c . . . 
-            . . . . 6 c 9 6 6 6 6 6 c 6 . . 
-            . . . 8 6 c 9 6 6 6 6 6 c 6 8 . 
-            . . . f 6 c 9 6 6 6 6 6 c 6 f . 
-            . . . f 8 c 6 6 6 6 6 6 c 8 f . 
-            . . . f 6 c 6 b b b b 6 c 6 f . 
-            . . . 8 6 6 b c c c c b 6 6 8 . 
-            . . . 8 8 b c c c c c c b 8 8 . 
-            . . . f 8 9 9 9 9 9 9 9 9 8 f . 
-            . . . f 8 d 6 6 6 6 6 6 d 8 f . 
-            . . . . 6 d d 6 6 6 6 d d 6 f . 
-            . . . . f 6 d 6 6 6 6 d 6 f . . 
-            . . . . . 8 6 6 6 6 6 6 8 . . . 
-            `)
-    }
-    if (blueCar.vy < 0) {
-        blueCar.setImage(img`
-            . . . . . . 8 8 c c 8 8 . . . . 
-            . . . . . 8 6 6 6 6 6 6 8 . . . 
-            . . . . 6 c 6 6 6 6 6 6 c 6 . . 
-            . . . 8 6 c 9 6 6 6 6 6 c 6 8 . 
-            . . . f 6 6 9 6 6 6 6 6 c 6 f . 
-            . . . f 6 6 9 6 6 6 6 6 6 6 f . 
-            . . . f 6 6 9 6 6 6 6 6 6 6 f . 
-            . . . f 6 c 6 9 9 6 6 6 c 6 f . 
-            . . . 8 6 c 8 c c c c 8 c 6 8 . 
-            . . . 8 6 8 c b b b b c 8 6 8 . 
-            . . . 8 6 8 b b b b b b 8 6 8 . 
-            . . . 8 8 8 8 8 8 8 8 8 8 8 8 . 
-            . . . f 8 d 8 8 8 8 8 8 d 8 f . 
-            . . . f 8 6 d 8 8 8 8 d 6 8 f . 
-            . . . f f 8 8 8 8 8 8 8 8 f f . 
-            . . . . f f . . . . . . f f . . 
-            `)
-    }
-})
-game.onUpdate(function () {
-    if (purpleCar.vx < 0) {
-        purpleCar.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . 3 3 3 3 3 3 3 3 . . 
-            . . . . . 3 c 3 3 3 3 3 3 d 3 . 
-            . . . . 3 c c 3 3 3 3 3 3 d c 3 
-            . . d 3 d c c 3 d d d d d d c c 
-            . d 3 3 d c b a a a a a a a 3 c 
-            . 3 3 3 d b a a b b b a b b a 3 
-            . 3 3 3 3 3 a b b b b a b b b a 
-            . 3 3 3 3 a 3 3 3 3 3 a 3 3 3 a 
-            . 3 d d 3 a f a a a f a a a a a 
-            . d d 3 a a a f a a f a a a a a 
-            . a a a a a a a f f f a a a a a 
-            . a a a a f f f a a a a f f f f 
-            . . . a f f f f f a a f f f f f 
-            . . . . f f f f . . . . f f f . 
-            . . . . . . . . . . . . . . . . 
-            `)
-    }
-    if (purpleCar.vx > 0) {
-        purpleCar.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . 3 3 3 3 3 3 3 3 . . . . 
-            . . . 3 d 3 3 3 3 3 3 c 3 . . . 
-            . . 3 c d 3 3 3 3 3 3 c c 3 . . 
-            . 3 c c d d d d d d 3 c c d 3 d 
-            . 3 c 3 a a a a a a a b c d 3 3 
-            . 3 3 a b b a b b b a a b d 3 3 
-            . 3 a b b b a b b b b a 3 3 3 3 
-            . a a 3 3 3 a 3 3 3 3 3 a 3 3 3 
-            . a a a a a a f a a a f a 3 d d 
-            . a a a a a a f a a f a a a 3 d 
-            . a a a a a a f f f a a a a a a 
-            . a f f f f a a a a f f f a a a 
-            . . f f f f f a a f f f f f a . 
-            . . . f f f . . . . f f f f . . 
-            . . . . . . . . . . . . . . . . 
-            `)
-    }
-    if (purpleCar.vy > 0) {
-        purpleCar.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . 3 3 3 3 3 3 . . . . 
-            . . . . . 3 3 d d 3 3 3 3 . . . 
-            . . . . . c d 3 3 3 3 3 c . . . 
-            . . . . 3 c d 3 3 3 3 3 c 3 . . 
-            . . . a 3 c d 3 3 3 3 3 c 3 a . 
-            . . . f 3 c d 3 3 3 3 3 c 3 f . 
-            . . . f a c 3 3 3 3 3 3 c a f . 
-            . . . f 3 c 3 b b b b 3 c 3 f . 
-            . . . a 3 3 b c c c c b 3 3 a . 
-            . . . a a b c c c c c c b a a . 
-            . . . f a d d d d d d d d a f . 
-            . . . f a d 3 3 3 3 3 3 d a f . 
-            . . . . 3 d d 3 3 3 3 d d 3 f . 
-            . . . . f 3 d 3 3 3 3 d 3 f . . 
-            . . . . . a 3 3 3 3 3 3 a . . . 
-            `)
-    }
-    if (purpleCar.vy < 0) {
-        purpleCar.setImage(img`
-            . . . . . . a a c c a a . . . . 
-            . . . . . a 3 3 3 3 3 3 a . . . 
-            . . . . 3 c 3 3 3 3 3 3 c 3 . . 
-            . . . a 3 c d 3 3 3 3 3 c 3 a . 
-            . . . f 3 3 d 3 3 3 3 3 c 3 f . 
-            . . . f 3 3 d 3 3 3 3 3 3 3 f . 
-            . . . f 3 3 d 3 3 3 3 3 3 3 f . 
-            . . . f 3 c 3 d d 3 3 3 c 3 f . 
-            . . . a 3 c a c c c c a c 3 a . 
-            . . . a 3 a c b b b b c a 3 a . 
-            . . . a 3 a b b b b b b a 3 a . 
-            . . . a a a a a a a a a a a a . 
-            . . . f a d a a a a a a d a f . 
-            . . . f a 3 d a a a a d 3 a f . 
-            . . . f f a a a a a a a a f f . 
-            . . . . f f . . . . . . f f . . 
-            `)
-    }
-})
-game.onUpdate(function () {
-    if (greenCar.vx < 0) {
-        greenCar.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . 3 3 3 3 3 3 3 3 . . 
-            . . . . . 3 c 3 3 3 3 3 3 d 3 . 
-            . . . . 3 c c 3 3 3 3 3 3 d c 3 
-            . . d 3 d c c 3 d d d d d d c c 
-            . d 3 3 d c b 7 7 7 7 7 7 7 3 c 
-            . 3 3 3 d b 7 7 b b b 7 b b 7 3 
-            . 3 3 3 3 3 7 b b b b 7 b b b 7 
-            . 3 3 3 3 7 3 3 3 3 3 7 3 3 3 7 
-            . 3 d d 3 7 f 7 7 7 f 7 7 7 7 7 
-            . d d 3 7 7 7 f 7 7 f 7 7 7 7 7 
-            . 7 7 7 7 7 7 7 f f f 7 7 7 7 7 
-            . 7 7 7 7 f f f 7 7 7 7 f f f f 
-            . . . 7 f f f f f 7 7 f f f f f 
-            . . . . f f f f . . . . f f f . 
-            . . . . . . . . . . . . . . . . 
-            `)
-    }
-    if (greenCar.vx > 0) {
-        greenCar.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . 3 3 3 3 3 3 3 3 . . . . 
-            . . . 3 d 3 3 3 3 3 3 c 3 . . . 
-            . . 3 c d 3 3 3 3 3 3 c c 3 . . 
-            . 3 c c d d d d d d 3 c c d 3 d 
-            . 3 c 3 7 7 7 7 7 7 7 b c d 3 3 
-            . 3 3 7 b b 7 b b b 7 7 b d 3 3 
-            . 3 7 b b b 7 b b b b 7 3 3 3 3 
-            . 7 7 3 3 3 7 3 3 3 3 3 7 3 3 3 
-            . 7 7 7 7 7 7 f 7 7 7 f 7 3 d d 
-            . 7 7 7 7 7 7 f 7 7 f 7 7 7 3 d 
-            . 7 7 7 7 7 7 f f f 7 7 7 7 7 7 
-            . 7 f f f f 7 7 7 7 f f f 7 7 7 
-            . . f f f f f 7 7 f f f f f 7 . 
-            . . . f f f . . . . f f f f . . 
-            . . . . . . . . . . . . . . . . 
-            `)
-    }
-    if (greenCar.vy > 0) {
-        greenCar.setImage(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . 3 3 3 3 3 3 . . . . 
-            . . . . . 3 3 d d 3 3 3 3 . . . 
-            . . . . . c d 3 3 3 3 3 c . . . 
-            . . . . 3 c d 3 3 3 3 3 c 3 . . 
-            . . . 7 3 c d 3 3 3 3 3 c 3 7 . 
-            . . . f 3 c d 3 3 3 3 3 c 3 f . 
-            . . . f 7 c 3 3 3 3 3 3 c 7 f . 
-            . . . f 3 c 3 b b b b 3 c 3 f . 
-            . . . 7 3 3 b c c c c b 3 3 7 . 
-            . . . 7 7 b c c c c c c b 7 7 . 
-            . . . f 7 d d d d d d d d 7 f . 
-            . . . f 7 d 3 3 3 3 3 3 d 7 f . 
-            . . . . 3 d d 3 3 3 3 d d 3 f . 
-            . . . . f 3 d 3 3 3 3 d 3 f . . 
-            . . . . . 7 3 3 3 3 3 3 7 . . . 
-            `)
-    }
-    if (greenCar.vy < 0) {
-        greenCar.setImage(img`
-            . . . . . . 7 7 c c 7 7 . . . . 
-            . . . . . 7 3 3 3 3 3 3 7 . . . 
-            . . . . 3 c 3 3 3 3 3 3 c 3 . . 
-            . . . 7 3 c d 3 3 3 3 3 c 3 7 . 
-            . . . f 3 3 d 3 3 3 3 3 c 3 f . 
-            . . . f 3 3 d 3 3 3 3 3 3 3 f . 
-            . . . f 3 3 d 3 3 3 3 3 3 3 f . 
-            . . . f 3 c 3 d d 3 3 3 c 3 f . 
-            . . . 7 3 c 7 c c c c 7 c 3 7 . 
-            . . . 7 3 7 c b b b b c 7 3 7 . 
-            . . . 7 3 7 b b b b b b 7 3 7 . 
-            . . . 7 7 7 7 7 7 7 7 7 7 7 7 . 
-            . . . f 7 d 7 7 7 7 7 7 d 7 f . 
-            . . . f 7 3 d 7 7 7 7 d 3 7 f . 
-            . . . f f 7 7 7 7 7 7 7 7 f f . 
-            . . . . f f . . . . . . f f . . 
-            `)
-    }
-})
-game.onUpdate(function () {
     if (mySprite.vx < 0) {
         mySprite.setImage(img`
             . . . . . . . . . . . . . . . . 
@@ -504,4 +214,270 @@ game.onUpdate(function () {
             . . . . . e 2 2 2 2 2 2 e . . . 
             `)
     }
+})
+game.onUpdate(function () {
+    if (level == 2) {
+        if (blueCar.vx < 0) {
+            blueCar.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . 6 6 6 6 6 6 6 6 . . 
+                . . . . . 6 c 6 6 6 6 6 6 9 6 . 
+                . . . . 6 c c 6 6 6 6 6 6 9 c 6 
+                . . d 6 9 c c 6 9 9 9 9 9 9 c c 
+                . d 6 6 9 c b 8 8 8 8 8 8 8 6 c 
+                . 6 6 6 9 b 8 8 b b b 8 b b 8 6 
+                . 6 6 6 6 6 8 b b b b 8 b b b 8 
+                . 6 6 6 6 8 6 6 6 6 6 8 6 6 6 8 
+                . 6 d d 6 8 f 8 8 8 f 8 8 8 8 8 
+                . d d 6 8 8 8 f 8 8 f 8 8 8 8 8 
+                . 8 8 8 8 8 8 8 f f f 8 8 8 8 8 
+                . 8 8 8 8 f f f 8 8 8 8 f f f f 
+                . . . 8 f f f f f 8 8 f f f f f 
+                . . . . f f f f . . . . f f f . 
+                . . . . . . . . . . . . . . . . 
+                `)
+        }
+        if (blueCar.vx > 0) {
+            blueCar.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . 6 6 6 6 6 6 6 6 . . . . 
+                . . . 6 9 6 6 6 6 6 6 c 6 . . . 
+                . . 6 c 9 6 6 6 6 6 6 c c 6 . . 
+                . 6 c c 9 9 9 9 9 9 6 c c 9 6 d 
+                . 6 c 6 8 8 8 8 8 8 8 b c 9 6 6 
+                . 6 6 8 b b 8 b b b 8 8 b 9 6 6 
+                . 6 8 b b b 8 b b b b 8 6 6 6 6 
+                . 8 8 6 6 6 8 6 6 6 6 6 8 6 6 6 
+                . 8 8 8 8 8 8 f 8 8 8 f 8 6 d d 
+                . 8 8 8 8 8 8 f 8 8 f 8 8 8 6 d 
+                . 8 8 8 8 8 8 f f f 8 8 8 8 8 8 
+                . 8 f f f f 8 8 8 8 f f f 8 8 8 
+                . . f f f f f 8 8 f f f f f 8 . 
+                . . . f f f . . . . f f f f . . 
+                . . . . . . . . . . . . . . . . 
+                `)
+        }
+        if (blueCar.vy > 0) {
+            blueCar.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . 6 6 6 6 6 6 . . . . 
+                . . . . . 6 6 9 9 6 6 6 6 . . . 
+                . . . . . c 9 6 6 6 6 6 c . . . 
+                . . . . 6 c 9 6 6 6 6 6 c 6 . . 
+                . . . 8 6 c 9 6 6 6 6 6 c 6 8 . 
+                . . . f 6 c 9 6 6 6 6 6 c 6 f . 
+                . . . f 8 c 6 6 6 6 6 6 c 8 f . 
+                . . . f 6 c 6 b b b b 6 c 6 f . 
+                . . . 8 6 6 b c c c c b 6 6 8 . 
+                . . . 8 8 b c c c c c c b 8 8 . 
+                . . . f 8 9 9 9 9 9 9 9 9 8 f . 
+                . . . f 8 d 6 6 6 6 6 6 d 8 f . 
+                . . . . 6 d d 6 6 6 6 d d 6 f . 
+                . . . . f 6 d 6 6 6 6 d 6 f . . 
+                . . . . . 8 6 6 6 6 6 6 8 . . . 
+                `)
+        }
+        if (blueCar.vy < 0) {
+            blueCar.setImage(img`
+                . . . . . . 8 8 c c 8 8 . . . . 
+                . . . . . 8 6 6 6 6 6 6 8 . . . 
+                . . . . 6 c 6 6 6 6 6 6 c 6 . . 
+                . . . 8 6 c 9 6 6 6 6 6 c 6 8 . 
+                . . . f 6 6 9 6 6 6 6 6 c 6 f . 
+                . . . f 6 6 9 6 6 6 6 6 6 6 f . 
+                . . . f 6 6 9 6 6 6 6 6 6 6 f . 
+                . . . f 6 c 6 9 9 6 6 6 c 6 f . 
+                . . . 8 6 c 8 c c c c 8 c 6 8 . 
+                . . . 8 6 8 c b b b b c 8 6 8 . 
+                . . . 8 6 8 b b b b b b 8 6 8 . 
+                . . . 8 8 8 8 8 8 8 8 8 8 8 8 . 
+                . . . f 8 d 8 8 8 8 8 8 d 8 f . 
+                . . . f 8 6 d 8 8 8 8 d 6 8 f . 
+                . . . f f 8 8 8 8 8 8 8 8 f f . 
+                . . . . f f . . . . . . f f . . 
+                `)
+        }
+    }
+})
+game.onUpdate(function () {
+    if (level == 2) {
+        if (purpleCar.vx < 0) {
+            purpleCar.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . 3 3 3 3 3 3 3 3 . . 
+                . . . . . 3 c 3 3 3 3 3 3 d 3 . 
+                . . . . 3 c c 3 3 3 3 3 3 d c 3 
+                . . d 3 d c c 3 d d d d d d c c 
+                . d 3 3 d c b a a a a a a a 3 c 
+                . 3 3 3 d b a a b b b a b b a 3 
+                . 3 3 3 3 3 a b b b b a b b b a 
+                . 3 3 3 3 a 3 3 3 3 3 a 3 3 3 a 
+                . 3 d d 3 a f a a a f a a a a a 
+                . d d 3 a a a f a a f a a a a a 
+                . a a a a a a a f f f a a a a a 
+                . a a a a f f f a a a a f f f f 
+                . . . a f f f f f a a f f f f f 
+                . . . . f f f f . . . . f f f . 
+                . . . . . . . . . . . . . . . . 
+                `)
+        }
+        if (purpleCar.vx > 0) {
+            purpleCar.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . 3 3 3 3 3 3 3 3 . . . . 
+                . . . 3 d 3 3 3 3 3 3 c 3 . . . 
+                . . 3 c d 3 3 3 3 3 3 c c 3 . . 
+                . 3 c c d d d d d d 3 c c d 3 d 
+                . 3 c 3 a a a a a a a b c d 3 3 
+                . 3 3 a b b a b b b a a b d 3 3 
+                . 3 a b b b a b b b b a 3 3 3 3 
+                . a a 3 3 3 a 3 3 3 3 3 a 3 3 3 
+                . a a a a a a f a a a f a 3 d d 
+                . a a a a a a f a a f a a a 3 d 
+                . a a a a a a f f f a a a a a a 
+                . a f f f f a a a a f f f a a a 
+                . . f f f f f a a f f f f f a . 
+                . . . f f f . . . . f f f f . . 
+                . . . . . . . . . . . . . . . . 
+                `)
+        }
+        if (purpleCar.vy > 0) {
+            purpleCar.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . 3 3 3 3 3 3 . . . . 
+                . . . . . 3 3 d d 3 3 3 3 . . . 
+                . . . . . c d 3 3 3 3 3 c . . . 
+                . . . . 3 c d 3 3 3 3 3 c 3 . . 
+                . . . a 3 c d 3 3 3 3 3 c 3 a . 
+                . . . f 3 c d 3 3 3 3 3 c 3 f . 
+                . . . f a c 3 3 3 3 3 3 c a f . 
+                . . . f 3 c 3 b b b b 3 c 3 f . 
+                . . . a 3 3 b c c c c b 3 3 a . 
+                . . . a a b c c c c c c b a a . 
+                . . . f a d d d d d d d d a f . 
+                . . . f a d 3 3 3 3 3 3 d a f . 
+                . . . . 3 d d 3 3 3 3 d d 3 f . 
+                . . . . f 3 d 3 3 3 3 d 3 f . . 
+                . . . . . a 3 3 3 3 3 3 a . . . 
+                `)
+        }
+        if (purpleCar.vy < 0) {
+            purpleCar.setImage(img`
+                . . . . . . a a c c a a . . . . 
+                . . . . . a 3 3 3 3 3 3 a . . . 
+                . . . . 3 c 3 3 3 3 3 3 c 3 . . 
+                . . . a 3 c d 3 3 3 3 3 c 3 a . 
+                . . . f 3 3 d 3 3 3 3 3 c 3 f . 
+                . . . f 3 3 d 3 3 3 3 3 3 3 f . 
+                . . . f 3 3 d 3 3 3 3 3 3 3 f . 
+                . . . f 3 c 3 d d 3 3 3 c 3 f . 
+                . . . a 3 c a c c c c a c 3 a . 
+                . . . a 3 a c b b b b c a 3 a . 
+                . . . a 3 a b b b b b b a 3 a . 
+                . . . a a a a a a a a a a a a . 
+                . . . f a d a a a a a a d a f . 
+                . . . f a 3 d a a a a d 3 a f . 
+                . . . f f a a a a a a a a f f . 
+                . . . . f f . . . . . . f f . . 
+                `)
+        }
+    }
+})
+game.onUpdate(function () {
+    if (level == 2) {
+        if (greenCar.vx < 0) {
+            greenCar.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . 3 3 3 3 3 3 3 3 . . 
+                . . . . . 3 c 3 3 3 3 3 3 d 3 . 
+                . . . . 3 c c 3 3 3 3 3 3 d c 3 
+                . . d 3 d c c 3 d d d d d d c c 
+                . d 3 3 d c b 7 7 7 7 7 7 7 3 c 
+                . 3 3 3 d b 7 7 b b b 7 b b 7 3 
+                . 3 3 3 3 3 7 b b b b 7 b b b 7 
+                . 3 3 3 3 7 3 3 3 3 3 7 3 3 3 7 
+                . 3 d d 3 7 f 7 7 7 f 7 7 7 7 7 
+                . d d 3 7 7 7 f 7 7 f 7 7 7 7 7 
+                . 7 7 7 7 7 7 7 f f f 7 7 7 7 7 
+                . 7 7 7 7 f f f 7 7 7 7 f f f f 
+                . . . 7 f f f f f 7 7 f f f f f 
+                . . . . f f f f . . . . f f f . 
+                . . . . . . . . . . . . . . . . 
+                `)
+        }
+        if (greenCar.vx > 0) {
+            greenCar.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . 3 3 3 3 3 3 3 3 . . . . 
+                . . . 3 d 3 3 3 3 3 3 c 3 . . . 
+                . . 3 c d 3 3 3 3 3 3 c c 3 . . 
+                . 3 c c d d d d d d 3 c c d 3 d 
+                . 3 c 3 7 7 7 7 7 7 7 b c d 3 3 
+                . 3 3 7 b b 7 b b b 7 7 b d 3 3 
+                . 3 7 b b b 7 b b b b 7 3 3 3 3 
+                . 7 7 3 3 3 7 3 3 3 3 3 7 3 3 3 
+                . 7 7 7 7 7 7 f 7 7 7 f 7 3 d d 
+                . 7 7 7 7 7 7 f 7 7 f 7 7 7 3 d 
+                . 7 7 7 7 7 7 f f f 7 7 7 7 7 7 
+                . 7 f f f f 7 7 7 7 f f f 7 7 7 
+                . . f f f f f 7 7 f f f f f 7 . 
+                . . . f f f . . . . f f f f . . 
+                . . . . . . . . . . . . . . . . 
+                `)
+        }
+        if (greenCar.vy > 0) {
+            greenCar.setImage(img`
+                . . . . . . . . . . . . . . . . 
+                . . . . . . 3 3 3 3 3 3 . . . . 
+                . . . . . 3 3 d d 3 3 3 3 . . . 
+                . . . . . c d 3 3 3 3 3 c . . . 
+                . . . . 3 c d 3 3 3 3 3 c 3 . . 
+                . . . 7 3 c d 3 3 3 3 3 c 3 7 . 
+                . . . f 3 c d 3 3 3 3 3 c 3 f . 
+                . . . f 7 c 3 3 3 3 3 3 c 7 f . 
+                . . . f 3 c 3 b b b b 3 c 3 f . 
+                . . . 7 3 3 b c c c c b 3 3 7 . 
+                . . . 7 7 b c c c c c c b 7 7 . 
+                . . . f 7 d d d d d d d d 7 f . 
+                . . . f 7 d 3 3 3 3 3 3 d 7 f . 
+                . . . . 3 d d 3 3 3 3 d d 3 f . 
+                . . . . f 3 d 3 3 3 3 d 3 f . . 
+                . . . . . 7 3 3 3 3 3 3 7 . . . 
+                `)
+        }
+        if (greenCar.vy < 0) {
+            greenCar.setImage(img`
+                . . . . . . 7 7 c c 7 7 . . . . 
+                . . . . . 7 3 3 3 3 3 3 7 . . . 
+                . . . . 3 c 3 3 3 3 3 3 c 3 . . 
+                . . . 7 3 c d 3 3 3 3 3 c 3 7 . 
+                . . . f 3 3 d 3 3 3 3 3 c 3 f . 
+                . . . f 3 3 d 3 3 3 3 3 3 3 f . 
+                . . . f 3 3 d 3 3 3 3 3 3 3 f . 
+                . . . f 3 c 3 d d 3 3 3 c 3 f . 
+                . . . 7 3 c 7 c c c c 7 c 3 7 . 
+                . . . 7 3 7 c b b b b c 7 3 7 . 
+                . . . 7 3 7 b b b b b b 7 3 7 . 
+                . . . 7 7 7 7 7 7 7 7 7 7 7 7 . 
+                . . . f 7 d 7 7 7 7 7 7 d 7 f . 
+                . . . f 7 3 d 7 7 7 7 d 3 7 f . 
+                . . . f f 7 7 7 7 7 7 7 7 f f . 
+                . . . . f f . . . . . . f f . . 
+                `)
+        }
+    }
+})
+game.onUpdate(function () {
+    gameTime = game.runtime()
+    if (slow == 1) {
+        controller.moveSprite(mySprite, 50, 50)
+    } else {
+        controller.moveSprite(mySprite, 100, 100)
+    }
+    if (gameTime > slowTime + 2000) {
+        slow = 0
+    }
+})
+game.onUpdate(function () {
+	
 })
